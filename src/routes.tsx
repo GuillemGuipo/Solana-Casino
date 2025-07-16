@@ -7,6 +7,7 @@ import StyleTest from './components/test/StyleTest';
 import UltraCoinFlip from './components/games/UltraCoinFlip';
 import UltraDiceRoll from './components/games/UltraDiceRoll';
 import UltraSlots from './components/games/UltraSlots';
+import UltraAgario from './components/games/UltraAgario';
 import GameSelector3D from './components/games/GameSelector3D';
 import AdvancedLeaderboard from './components/leaderboard/AdvancedLeaderboard';
 import EnhancedGameStats from './components/analytics/EnhancedGameStats';
@@ -26,6 +27,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/coinflip" element={<UltraCoinFlip />} />
       <Route path="/dice" element={<UltraDiceRoll />} />
       <Route path="/slots" element={<UltraSlots />} />
+      <Route path="/agario" element={<UltraAgario />} />
 
       {/* Analytics & Leaderboard */}
       <Route path="/analytics" element={<EnhancedGameStats />} />

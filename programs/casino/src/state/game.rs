@@ -160,6 +160,10 @@ impl Game {
                 let result = hash[0] % 37; // 0-36 for European roulette
                 Ok(vec![result])
             },
+            GameType::Agario => {
+                // Outcome generation can be more complex; use default hash slice for now
+                Ok(hash[0..4].to_vec())
+            },
             _ => {
                 // For more complex games, implement specific logic
                 Ok(hash[0..4].to_vec())
@@ -241,6 +245,12 @@ impl Game {
                 let result = outcome[0];
                 let won = prediction == result;
                 let multiplier = if won { super::ROULETTE_STRAIGHT_PAYOUT } else { 0 };
+                (won, multiplier)
+            },
+            GameType::Agario => {
+                // Placeholder payout logic for Agario
+                let won = false;
+                let multiplier = 0;
                 (won, multiplier)
             },
             _ => {
