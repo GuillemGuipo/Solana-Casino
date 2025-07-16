@@ -1,12 +1,5 @@
 import { Router } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-
-interface PlayerState {
-  size: number;
-  balance: number;
-}
-
-const players: Record<string, PlayerState> = {};
+import { agarioGame } from '../game/agario';
 
 const router = Router();
 
@@ -15,26 +8,26 @@ router.post('/join', (req, res) => {
   if (![1, 5, 20].includes(Number(bet))) {
     return res.status(400).json({ error: 'Invalid entry fee' });
   }
-  const id = uuidv4();
-  players[id] = { size: 1, balance: Number(bet) };
-  res.json({ playerId: id, state: players[id] });
+  const state = agarioGame.joinGame(Number(bet));
+  const gameState = agarioGame.getState();
+  res.json({ playerId: state.id, state, players: gameState.players, pellets: gameState.pellets });
 });
 
 router.post('/update', (req, res) => {
-  const { playerId, sizeDelta = 0, balanceDelta = 0 } = req.body;
-  const player = players[playerId];
-  if (!player) return res.status(404).json({ error: 'Player not found' });
-  player.size += Number(sizeDelta);
-  player.balance += Number(balanceDelta);
-  res.json({ state: player });
+  const { playerId, x, y } = req.body;
+  const state = agarioGame.updatePlayer(String(playerId), Number(x), Number(y));
+  if (!state) return res.status(404).json({ error: 'Player not found' });
+  res.json({ state });
+});
+
+router.get('/state', (_req, res) => {
+  res.json(agarioGame.getState());
 });
 
 router.post('/cashout', (req, res) => {
   const { playerId } = req.body;
-  const player = players[playerId];
-  if (!player) return res.status(404).json({ error: 'Player not found' });
-  const payout = player.balance * 0.9; // 10% fee
-  delete players[playerId];
+  const payout = agarioGame.cashOut(String(playerId));
+  if (payout === null) return res.status(404).json({ error: 'Player not found' });
   res.json({ payout });
 });
 

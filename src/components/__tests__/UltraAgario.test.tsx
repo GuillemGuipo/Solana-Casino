@@ -10,7 +10,7 @@ window.alert = jest.fn();
 
 describe('UltraAgario component', () => {
   it('joins and cashes out', async () => {
-    mockedAxios.post.mockResolvedValueOnce({ data: { playerId: '1', state: { size: 1, balance: 1 } } });
+    mockedAxios.post.mockResolvedValueOnce({ data: { playerId: '1', state: { id: '1', size: 1, balance: 1, x: 0, y: 0 }, players: [], pellets: [] } });
     render(<UltraAgario />);
     fireEvent.click(screen.getByText('Join for $1'));
     await waitFor(() => screen.getByText(/Size:/));

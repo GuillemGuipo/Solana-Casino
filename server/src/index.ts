@@ -15,6 +15,7 @@ import { metricsMiddleware } from './middleware/metrics';
 import { setupRedis } from './cache/redis';
 import { setupQueues } from './queues';
 import { setupWebSocket } from './websocket';
+import { agarioGame } from './game/agario';
 import { setupCronJobs } from './jobs/cronJobs';
 import { setupSwagger } from './docs/swagger';
 
@@ -46,6 +47,7 @@ class CasinoServer {
       },
       transports: ['websocket', 'polling']
     });
+    agarioGame.init(this.io);
   }
 
   private async setupMiddleware(): Promise<void> {
