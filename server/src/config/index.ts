@@ -9,14 +9,6 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().transform(Number).default('3000'),
   
-  // Database
-  DATABASE_URL: z.string(),
-  DB_HOST: z.string().default('localhost'),
-  DB_PORT: z.string().transform(Number).default('5432'),
-  DB_NAME: z.string(),
-  DB_USER: z.string(),
-  DB_PASSWORD: z.string(),
-  DB_SSL: z.string().transform(Boolean).default('false'),
   
   // Redis
   REDIS_URL: z.string().optional(),
@@ -96,25 +88,6 @@ export const config = {
   env: env.NODE_ENV,
   port: env.PORT,
   
-  database: {
-    url: env.DATABASE_URL,
-    host: env.DB_HOST,
-    port: env.DB_PORT,
-    name: env.DB_NAME,
-    user: env.DB_USER,
-    password: env.DB_PASSWORD,
-    ssl: env.DB_SSL,
-    pool: {
-      min: 2,
-      max: 10,
-      acquireTimeoutMillis: 30000,
-      createTimeoutMillis: 30000,
-      destroyTimeoutMillis: 5000,
-      idleTimeoutMillis: 30000,
-      reapIntervalMillis: 1000,
-      createRetryIntervalMillis: 100,
-    }
-  },
   
   redis: {
     url: env.REDIS_URL,
@@ -242,6 +215,11 @@ export const config = {
       maxPayout: 35,
       minBet: 0.01,
       maxBet: 100,
+    },
+    agario: {
+      houseEdge: 0.05, // 5%
+      minBet: 1,
+      maxBet: 20,
     }
   },
   

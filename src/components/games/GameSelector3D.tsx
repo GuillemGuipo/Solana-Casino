@@ -114,6 +114,20 @@ const GAME_CARDS: GameCard[] = [
     features: ['AI Opponents', 'Tournaments', 'Bluff Detection'],
     comingSoon: true,
   },
+  {
+    id: 'agario',
+    title: 'Ultra Agario',
+    description: 'Grow your cell and outlast opponents in real-time battles',
+    icon: Flame,
+    path: '/agario',
+    difficulty: 'Easy',
+    minBet: 1,
+    maxPayout: 'Varies',
+    players: 0,
+    gradient: 'from-blue-500 via-cyan-500 to-teal-500',
+    bgImage: '/images/agario-bg.jpg',
+    features: ['Real-Time Multiplayer', 'Cash Out Anytime'],
+  },
 ];
 
 const GameSelector3D: React.FC = () => {

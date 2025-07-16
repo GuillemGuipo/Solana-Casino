@@ -20,6 +20,7 @@ pub enum GameType {
     Poker,
     Lottery,
     SportsBet,
+    Agario,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq)]

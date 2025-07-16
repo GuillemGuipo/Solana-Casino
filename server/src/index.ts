@@ -12,7 +12,6 @@ import { errorHandler } from './middleware/errorHandler';
 import { authMiddleware } from './middleware/auth';
 import { validateRequest } from './middleware/validation';
 import { metricsMiddleware } from './middleware/metrics';
-import { setupDatabase } from './database';
 import { setupRedis } from './cache/redis';
 import { setupQueues } from './queues';
 import { setupWebSocket } from './websocket';
@@ -29,6 +28,7 @@ import analyticsRoutes from './routes/analytics';
 import adminRoutes from './routes/admin';
 import webhookRoutes from './routes/webhooks';
 import healthRoutes from './routes/health';
+import agarioRoutes from './routes/agario';
 
 class CasinoServer {
   private app: express.Application;
@@ -130,6 +130,7 @@ class CasinoServer {
     this.app.use('/api/users', authMiddleware, userRoutes);
     this.app.use('/api/casinos', authMiddleware, casinoRoutes);
     this.app.use('/api/games', authMiddleware, gameRoutes);
+    this.app.use('/api/agario', authMiddleware, agarioRoutes);
     this.app.use('/api/tournaments', authMiddleware, tournamentRoutes);
     this.app.use('/api/analytics', authMiddleware, analyticsRoutes);
     this.app.use('/api/admin', authMiddleware, adminRoutes);
@@ -153,10 +154,6 @@ class CasinoServer {
 
   private async setupServices(): Promise<void> {
     try {
-      // Database
-      await setupDatabase();
-      logger.info('Database connected successfully');
-
       // Redis
       await setupRedis();
       logger.info('Redis connected successfully');
@@ -186,7 +183,6 @@ class CasinoServer {
       this.server.close(() => {
         logger.info('HTTP server closed');
         
-        // Close database connections
         // Close Redis connections
         // Close other resources
         
